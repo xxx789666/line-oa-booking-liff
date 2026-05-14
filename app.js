@@ -54,8 +54,11 @@
       body: JSON.stringify(body)
     });
     const data = await res.json();
-    dbg(`  ← ${JSON.stringify(data).slice(0, 100)}`);
-    if (data.error) throw new Error(data.error);
+    dbg(`  ← ${JSON.stringify(data).slice(0, 500)}`);
+    if (data.error) {
+      const msg = data.debug_message ? `${data.error}: ${data.debug_message}` : data.error;
+      throw new Error(msg);
+    }
     return data;
   }
 
